@@ -1,0 +1,473 @@
+[
+    {
+      "barcode": "044000070908",
+      "name": "Oreo Cookies",
+      "ingredients": ["Sugar", "Palm Oil", "Cocoa", "Wheat Flour", "Soy Lecithin", "Vanillin"],
+      "allergens": ["Wheat", "Soy"]
+    },
+    {
+      "barcode": "051500255162",
+      "name": "Jif Creamy Peanut Butter",
+      "ingredients": ["Roasted Peanuts", "Sugar", "Salt"],
+      "allergens": ["Nuts"]
+    },
+    {
+      "barcode": "041196912573",
+      "name": "Nutella Hazelnut Spread",
+      "ingredients": ["Sugar", "Palm Oil", "Hazelnuts", "Cocoa", "Milk", "Soy Lecithin", "Vanillin"],
+      "allergens": ["Nuts", "Milk", "Soy"]
+    },
+    {
+      "barcode": "02840019914",
+      "name": "Lay's Classic Potato Chips",
+      "ingredients": ["Potatoes", "Vegetable Oil", "Salt"],
+      "allergens": []
+    },
+    {
+      "barcode": "028400090896",
+      "name": "Doritos Nacho Cheese",
+      "ingredients": ["Corn", "Vegetable Oil", "Cheese", "Milk", "Salt", "Garlic Powder"],
+      "allergens": ["Milk"]
+    },
+    {
+      "barcode": "041570056219",
+      "name": "Almond Breeze Vanilla Almond Milk",
+      "ingredients": ["Water", "Almonds", "Vitamin D2", "Calcium Carbonate"],
+      "allergens": ["Almonds"]
+    },
+    {
+      "barcode": "023100104576",
+      "name": "Campbell's Tomato Soup",
+      "ingredients": ["Tomato Puree", "Water", "High Fructose Corn Syrup", "Wheat Flour"],
+      "allergens": ["Wheat"]
+    },
+    {
+      "barcode": "044000057134",
+      "name": "Ritz Crackers",
+      "ingredients": ["Enriched Flour", "Palm Oil", "Salt", "Sugar"],
+      "allergens": ["Wheat"]
+    },
+    {
+      "barcode": "034000070534",
+      "name": "Hershey's Milk  Chocolate Bar",
+      "ingredients": ["Milk Chocolate", "Sugar", "Cocoa Butter", "Milk", "Soy Lecithin"],
+      "allergens": ["Milk", "Soy"]
+    },
+    {
+      "barcode": "034000291052",
+      "name": "Hershey's Nuts Chocolate Bar",
+      "ingredients": ["Milk Chocolate", "Sugar", "Cocoa Butter", "Milk", "Soy Lecithin"],
+      "allergens": ["Milk", "Soy", "Nuts"]
+    },
+    {
+      "barcode": "041192108839",
+      "name": "Kellogg's Frosted Flakes Cereal",
+      "ingredients": ["Milled Corn", "Sugar", "Salt", "Vitamin C"],
+      "allergens": []
+    },
+    {
+      "barcode": "04800126524",
+      "name": "Hellmann's Real Mayonnaise",
+      "ingredients": ["Soybean Oil", "Egg Yolks", "Vinegar", "Salt"],
+      "allergens": ["Soy", "Eggs"]
+    },
+    {
+      "barcode": "070847030477",
+      "name": "Silk Organic Soy Milk",
+      "ingredients": ["Water", "Soybeans", "Calcium Carbonate", "Vitamin D2"],
+      "allergens": ["Soy"]
+    },
+    {
+      "barcode": "041196911535",
+      "name": "Skippy Peanut Buter",
+      "ingredients": ["Roasted Peanuts", "Sugar", "Salt"],
+      "allergens": ["Nuts"]
+    },
+    {
+      "barcode": "048001356628",
+      "name": "Best Foods Real Mayonnaise",
+      "ingredients": ["Soybean Oil", "Egg Yolks", "Salt", "Vinegar"],
+      "allergens": ["Soy", "Eggs"]
+    },
+    {
+      "barcode": "006320011118",
+      "name": "Ben & Jerry’s Chocolate Chip Cookie Dough Ice Cream",
+      "ingredients": ["Milk", "Cream", "Sugar", "Vanilla Extract", "Eggs", "Chocolate Chips"],
+      "allergens": ["Milk", "Eggs"]
+    },
+    {
+      "barcode": "028400589864",
+      "name": "Cheetos Crunchy Cheese Snacks",
+      "ingredients": ["Cornmeal", "Vegetable Oil", "Cheese", "Milk", "Salt"],
+      "allergens": ["Milk"]
+    },
+    {
+      "barcode": "034000946334",
+      "name": "Kit Kat Chocolate Bar",
+      "ingredients": ["Milk Chocolate", "Cocoa", "Sugar", "Milk", "Soy Lecithin"],
+      "allergens": ["Milk", "Soy"]
+    },
+    {
+      "barcode": "035700008935",
+      "name": "Nature Valley Granola Bars",
+      "ingredients": ["Whole Grain Oats", "Honey", "Brown Sugar", "Soy Lecithin"],
+      "allergens": ["Soy"]
+    },
+    {
+      "barcode": "050000235063",
+      "name": "Nestle Coffee Mate French Vanilla Creamer",
+      "ingredients": ["Sugar", "Corn Syrup Solids", "Soybean Oil", "Vanilla"],
+      "allergens": ["Soy"]
+    },
+    
+      {
+        "barcode": "0044000040757",
+        "name": "Milk Chocolate",
+        "ingredients": ["Cocoa", "Sugar", "Milk"],
+        "allergens": ["Milk"]
+      },
+      {
+        "barcode": "041260365157",
+        "name": "Dark Chocolate",
+        "ingredients": ["Cocoa", "Sugar"],
+        "allergens": []
+      },
+      {
+        "barcode": "0024000551630",
+        "name": "Milk Chocolate Bar",
+        "ingredients": ["Cocoa", "Sugar", "Milk"],
+        "allergens": ["Milk"]
+      },
+      {
+        "barcode": "011110400079",
+        "name": "Seafood Pasta",
+        "ingredients": ["Pasta", "Tomato Sauce", "Shrimp"],
+        "allergens": ["Shellfish", "Wheat"]
+      },
+      {
+        "barcode": "0047618102536",
+        "name": "Vegetarian Pasta",
+        "ingredients": ["Pasta", "Tomato Sauce", "Mushrooms"],
+        "allergens": ["Wheat"]
+      },
+      {
+        "barcode": "0041166102552",
+        "name": "Soy Protein Shake",
+        "ingredients": ["Soy Protein", "Cocoa", "Sugar"],
+        "allergens": ["Soy"]
+      },
+      {
+        "barcode": "0012000578856",
+        "name": "Whey Protein Shake",
+        "ingredients": ["Whey Protein", "Cocoa", "Sugar", "Milk"],
+        "allergens": ["Milk"]
+      },
+      {
+        "barcode": "0098765432100",
+        "name": "Orange Juice",
+        "ingredients": ["Orange", "Water", "Sugar"],
+        "allergens": []
+      },
+      {
+        "barcode": "0087654321098",
+        "name": "Whole Wheat Bread",
+        "ingredients": ["Whole Wheat Flour", "Water", "Salt"],
+        "allergens": ["Wheat"]
+      },
+      {
+        "barcode": "0076543210987",
+        "name": "Cheddar Cheese",
+        "ingredients": ["Milk", "Salt", "Enzymes"],
+        "allergens": ["Milk"]
+      },
+      {
+        "barcode": "0065432109876",
+        "name": "Strawberry Yogurt",
+        "ingredients": ["Milk", "Strawberries", "Sugar"],
+        "allergens": ["Milk"]
+      },
+      {
+        "barcode": "0054321098765",
+        "name": "Peanut Butter",
+        "ingredients": ["Peanuts", "Salt"],
+        "allergens": ["Nuts"]
+      },
+      {
+        "barcode": "0043210987654",
+        "name": "Gluten-Free Crackers",
+        "ingredients": ["Rice Flour", "Salt", "Olive Oil"],
+        "allergens": []
+      },
+      {
+        "barcode": "0032109876543",
+        "name": "Mixed Nuts",
+        "ingredients": ["Almonds", "Cashews", "Pecans"],
+        "allergens": ["Nuts"]
+      },
+    
+      
+        {
+          "barcode": "0032109876432",
+          "name": "Blueberry Muffin",
+          "ingredients": ["Blueberries", "Flour", "Sugar", "Eggs"],
+          "allergens": ["Wheat", "Eggs"]
+        },
+        {
+          "barcode": "0021098764321",
+          "name": "Carrot Cake",
+          "ingredients": ["Carrots", "Flour", "Sugar", "Eggs"],
+          "allergens": ["Wheat", "Eggs"]
+        },
+        {
+          "barcode": "0010987654320",
+          "name": "Gluten-Free Brownies",
+          "ingredients": ["Rice Flour", "Cocoa", "Sugar", "Eggs"],
+          "allergens": ["Eggs"]
+        },
+        {
+          "barcode": "0009876543218",
+          "name": "Macadamia Nuts",
+          "ingredients": ["Macadamia Nuts", "Salt"],
+          "allergens": ["Nuts"]
+        },
+        {
+          "barcode": "0098765432187",
+          "name": "Pineapple Juice",
+          "ingredients": ["Pineapple", "Water"],
+          "allergens": []
+        },
+        {
+          "barcode": "0087654321876",
+          "name": "Vegetable Chips",
+          "ingredients": ["Sweet Potato", "Beetroot", "Olive Oil", "Salt"],
+          "allergens": []
+        },
+        {
+          "barcode": "0076543218765",
+          "name": "Salted Pistachios",
+          "ingredients": ["Pistachios", "Salt"],
+          "allergens": ["Nuts"]
+        },
+        {
+          "barcode": "0065432187654",
+          "name": "Ginger Tea",
+          "ingredients": ["Ginger", "Tea Leaves", "Lemon"],
+          "allergens": []
+        },
+        {
+          "barcode": "0054321876543",
+          "name": "Coconut Cookies",
+          "ingredients": ["Coconut", "Sugar", "Eggs"],
+          "allergens": ["Eggs"]
+        },
+        {
+          "barcode": "0043218765432",
+          "name": "Sweet Corn Soup",
+          "ingredients": ["Corn", "Salt", "Milk"],
+          "allergens": ["Milk"]
+        },
+        {
+          "barcode": "0032187654321",
+          "name": "Chocolate Chip Cookies",
+          "ingredients": ["Flour", "Sugar", "Chocolate Chips", "Eggs"],
+          "allergens": ["Wheat", "Eggs"]
+        },
+        {
+          "barcode": "0021876543210",
+          "name": "Almond Butter",
+          "ingredients": ["Almonds", "Salt"],
+          "allergens": ["Nuts"]
+        },
+        {
+          "barcode": "0018765432109",
+          "name": "Mango Slices",
+          "ingredients": ["Mango"],
+          "allergens": []
+        },
+        {
+          "barcode": "0007654321098",
+          "name": "Cashew Energy Bar",
+          "ingredients": ["Cashews", "Honey", "Cocoa"],
+          "allergens": ["Nuts"]
+        },
+        {
+          "barcode": "0096543210987",
+          "name": "Berry Smoothie",
+          "ingredients": ["Strawberries", "Blueberries", "Milk"],
+          "allergens": ["Milk"]
+        }
+      
+        ,
+          {
+            "barcode": "0085432109876",
+            "name": "Honey Roasted Peanuts",
+            "ingredients": ["Peanuts", "Honey", "Salt"],
+            "allergens": ["Nuts"]
+          },
+          {
+            "barcode": "0074321098765",
+            "name": "Dark Chocolate Almonds",
+            "ingredients": ["Almonds", "Dark Chocolate", "Sugar"],
+            "allergens": ["Nuts"]
+          },
+          {
+            "barcode": "0063210987654",
+            "name": "Avocado Smoothie",
+            "ingredients": ["Avocado", "Milk", "Honey"],
+            "allergens": ["Milk"]
+          },
+          {
+            "barcode": "0052109876543",
+            "name": "Coconut Almond Granola",
+            "ingredients": ["Coconut", "Almonds", "Oats", "Honey"],
+            "allergens": ["Nuts", "Wheat"]
+          },
+          {
+            "barcode": "0041098765432",
+            "name": "Pomegranate Juice",
+            "ingredients": ["Pomegranate", "Water", "Sugar"],
+            "allergens": []
+          },
+          {
+            "barcode": "0030987654321",
+            "name": "Gingerbread Cookies",
+            "ingredients": ["Flour", "Ginger", "Sugar", "Eggs"],
+            "allergens": ["Wheat", "Eggs"]
+          },
+          {
+            "barcode": "0029876543210",
+            "name": "Peach Slices",
+            "ingredients": ["Peach"],
+            "allergens": []
+          },
+          {
+            "barcode": "0018765432198",
+            "name": "Salted Cashews",
+            "ingredients": ["Cashews", "Salt"],
+            "allergens": ["Nuts"]
+          },
+          {
+            "barcode": "0007654321987",
+            "name": "Vanilla Yogurt",
+            "ingredients": ["Milk", "Vanilla", "Sugar"],
+            "allergens": ["Milk"]
+          },
+          {
+            "barcode": "0096543219876",
+            "name": "Pumpkin Soup",
+            "ingredients": ["Pumpkin", "Milk", "Salt"],
+            "allergens": ["Milk"]
+          },
+          {
+            "barcode": "0085432198765",
+            "name": "Apricot Jam",
+            "ingredients": ["Apricot", "Sugar"],
+            "allergens": []
+          },
+          {
+            "barcode": "0074321987654",
+            "name": "Banana Chips",
+            "ingredients": ["Banana", "Oil"],
+            "allergens": []
+          },
+          {
+            "barcode": "0063219876543",
+            "name": "Garlic Butter Bread",
+            "ingredients": ["Butter", "Garlic", "Flour"],
+            "allergens": ["Milk", "Wheat"]
+          },
+          {
+            "barcode": "0052109876432",
+            "name": "Hazelnut Chocolate Spread",
+            "ingredients": ["Hazelnuts", "Cocoa", "Sugar"],
+            "allergens": ["Nuts"]
+          },
+          {
+            "barcode": "0041098765321",
+            "name": "Strawberry Jam",
+            "ingredients": ["Strawberries", "Sugar"],
+            "allergens": []
+          },
+          
+            {
+                "barcode": "6221234567890",
+                "name": "Edita Tiger Biscuits (Wheat)",
+                "ingredients": ["Wheat Flour", "Sugar", "Palm Oil"],
+                "allergens": ["Wheat"]
+            },
+            {
+                "barcode": "6222345678901",
+                "name": "Hohos Gluten-Free Corn Cookies",
+                "ingredients": ["Corn Flour", "Sugar", "Sunflower Oil"],
+                "allergens": []
+            },
+            {
+                "barcode": "6223456789012",
+                "name": "Almarai Full Cream Yogurt",
+                "ingredients": ["Milk", "Bacterial Cultures"],
+                "allergens": ["Milk"]
+            },
+            {
+                "barcode": "6224567890123",
+                "name": "Juhayna Coconut Yogurt",
+                "ingredients": ["Coconut Milk", "Probiotics"],
+                "allergens": []
+            },
+            {
+                "barcode": "6225678901234",
+                "name": "Chipsy Peanut Snacks",
+                "ingredients": ["Peanuts", "Salt"],
+                "allergens": ["Nuts"]
+            },
+            {
+                "barcode": "6226789012345",
+                "name": "Sunflower Seed Bites (Local Brand)",
+                "ingredients": ["Sunflower Seeds", "Salt"],
+                "allergens": []
+            },
+            {
+                "barcode": "6227890123456",
+                "name": "Heinz Soy Sauce",
+                "ingredients": ["Soybeans", "Wheat", "Salt"],
+                "allergens": ["Soy", "Wheat"]
+            },
+            {
+                "barcode": "6228901234567",
+                "name": "Coconut Secret Aminos (Imported)",
+                "ingredients": ["Coconut Sap", "Salt"],
+                "allergens": []
+            },
+            {
+                "barcode": "6229012345678",
+                "name": "Fresh Frozen Shrimp",
+                "ingredients": ["Shrimp", "Salt"],
+                "allergens": ["Shellfish"]
+            },
+            {
+                "barcode": "6220123456789",
+                "name": "Seaweed Snacks (Carrefour Egypt)",
+                "ingredients": ["Seaweed", "Olive Oil", "Salt"],
+                "allergens": []
+            },
+            {
+                "barcode": "6221123456789",
+                "name": "Pinar Labneh (Milk-Based)",
+                "ingredients": ["Yogurt", "Salt"],
+                "allergens": ["Milk"]
+            },
+            {
+                "barcode": "6222123456789",
+                "name": "Egg-Based Mayonnaise (Astra)",
+                "ingredients": ["Egg Yolks", "Oil", "Vinegar"],
+                "allergens": ["Eggs"]
+            },
+            {
+                "barcode": "6223123456789",
+                "name": "Aquafaba Vegan Mayo (Imported)",
+                "ingredients": ["Chickpea Water", "Oil", "Lemon Juice"],
+                "allergens": []
+            }
+        
+      
+  ]
+  
