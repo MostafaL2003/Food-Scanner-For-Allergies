@@ -1,1 +1,0 @@
- df['allergens'] = df['allergens'].apply(lambda x: [a.lower().strip() for a in x])
