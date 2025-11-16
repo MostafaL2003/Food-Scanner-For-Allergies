@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import '../services/local_storage.dart';
-import 'home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pleasegod/cubit/profile_cubit.dart';
+import 'package:pleasegod/screens/home_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  final String currentName;
-  final List<String> currentAllergies;
-
-  const UserProfileScreen({
-    Key? key,
-    required this.currentName,
-    required this.currentAllergies,
-  }) : super(key: key);
+  const UserProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -22,53 +16,63 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   bool _isSaving = false;
 
   static const List<String> _allergyOptions = [
-    'Wheat', 'Nuts', 'Milk', 'Shellfish', 'Soy', 'Eggs', 'Fish'
+    'Wheat',
+    'Nuts',
+    'Milk',
+    'Shellfish',
+    'Soy',
+    'Eggs',
+    'Fish',
   ];
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.currentName);
-    _selectedAllergies.addAll(widget.currentAllergies);
+    final initialState = context.read<ProfileCubit>().state;
+    _nameController = TextEditingController(text: initialState.userName);
+    _selectedAllergies.addAll(initialState.userAllergies);
   }
 
   Future<void> _saveAndContinue() async {
+    // 1. Validate the form
     if (_nameController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your name')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter your name')));
       return;
     }
 
     setState(() => _isSaving = true);
-    await LocalStorage.saveUserData(
-      name: _nameController.text.trim(),
-      allergies: _selectedAllergies.toList(),
+
+    // 2. Tell the "brain" (Cubit) to update and save the data
+    await context.read<ProfileCubit>().updateProfile(
+      _nameController.text.trim(),
+      _selectedAllergies.toList(),
     );
 
     if (!mounted) return;
 
-    // ============== CRUCIAL FIX ==============
+    // 3. This is the smart navigation logic we're restoring:
+    //
+    // Check: "Can I go back?" (e.g., Was I pushed here from HomeScreen?)
     if (Navigator.of(context).canPop()) {
-      // When editing from HomeScreen - return to existing HomeScreen
-      Navigator.pop(context, {
-        'name': _nameController.text.trim(),
-        'allergies': _selectedAllergies.toList(),
-      });
+      // If YES: Just go back. The HomeScreen is already listening.
+      Navigator.pop(context);
     } else {
-      // First-time setup - replace with new HomeScreen
+      // If NO: This is the first-time setup.
+      // We must *replace* the setup screen with the main app.
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(
-            userName: _nameController.text.trim(),
-            userAllergies: _selectedAllergies.toList(),
-          ),
+          // We don't pass any data. HomeScreen will
+          // get the new profile from the Cubit.
+          builder: (context) => HomeScreen(),
         ),
       );
     }
-    // ============== FIX ENDS HERE ==============
-  }
+  } // When editing from HomeScreen - return to existing HomeScreen
+
+  // ============== FIX ENDS HERE ==============
 
   @override
   void dispose() {
@@ -81,32 +85,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return ChoiceChip(
       label: Text(allergy),
       selected: isSelected,
-      onSelected: (selected) => setState(() {
-        selected ? _selectedAllergies.add(allergy) 
+      onSelected:
+          (selected) => setState(() {
+            selected
+                ? _selectedAllergies.add(allergy)
                 : _selectedAllergies.remove(allergy);
-      }),
+          }),
       labelStyle: TextStyle(
         color: isSelected ? Colors.white : Colors.grey[800],
         fontWeight: FontWeight.w500,
       ),
       selectedColor: Colors.orange[800],
       backgroundColor: Colors.grey[200],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      avatar: isSelected
-          ? const Icon(Icons.check, size: 18, color: Colors.white)
-          : null,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      avatar:
+          isSelected
+              ? const Icon(Icons.check, size: 18, color: Colors.white)
+              : null,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your Profile'),
-        elevation: 4,
-      ),
+      appBar: AppBar(title: const Text('Your Profile'), elevation: 4),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -125,14 +127,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 decoration: InputDecoration(
                   labelText: 'Your Name',
                   hintText: 'e.g. Alex Johnson',
-                  prefixIcon: const Icon(Icons.person_outline, color: Colors.orange),
+                  prefixIcon: const Icon(
+                    Icons.person_outline,
+                    color: Colors.orange,
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
                   ),
                   filled: true,
                   fillColor: Colors.grey[50],
                   contentPadding: const EdgeInsets.symmetric(
-                    vertical: 18, 
+                    vertical: 18,
                     horizontal: 20,
                   ),
                 ),
@@ -142,10 +147,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 padding: EdgeInsets.only(left: 8.0),
                 child: Text(
                   'Select Your Allergies:',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                 ),
               ),
               const SizedBox(height: 16),
@@ -171,9 +173,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: _isSaving
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Continue'),
+                  child:
+                      _isSaving
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text('Continue'),
                 ),
               ),
             ],

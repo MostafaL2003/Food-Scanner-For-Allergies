@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,25 +8,18 @@ import 'product_details_screen.dart';
 import 'user_profile_screen.dart';
 import 'scanner_screen.dart';
 import '../widgets/action_buttons.dart';
+import 'package:pleasegod/services/database_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pleasegod/cubit/profile_cubit.dart';
+import 'package:pleasegod/cubit/profile_state.dart';
 
 class HomeScreen extends StatefulWidget {
-  final String userName;
-  final List<String> userAllergies;
-
-  const HomeScreen({
-    Key? key,
-    required this.userName,
-    required this.userAllergies,
-  }) : super(key: key);
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late String _userName;
-  late List<String> _userAllergies;
-  // ignore: unused_field
+  final DatabaseService _dbservice = DatabaseService();
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
   final BarcodeScanner _barcodeScanner = BarcodeScanner();
@@ -34,29 +27,14 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isProcessing = false;
 
   @override
-  void initState() {
-    super.initState();
-    _userName = widget.userName;
-    _userAllergies = widget.userAllergies;
-  }
-
-  Future<List<Map<String, dynamic>>> _loadProductDatabase() async {
-    try {
-      final jsonString = await rootBundle.loadString('assets/products.json');
-      return List<Map<String, dynamic>>.from(json.decode(jsonString));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error loading product data")),
-      );
-      return [];
-    }
-  }
-
   void _handleScan() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ScannerScreen(userAllergies: _userAllergies),
+        builder:
+            (context) => ScannerScreen(
+              userAllergies: context.read<ProfileCubit>().state.userAllergies,
+            ),
       ),
     );
   }
@@ -70,57 +48,61 @@ class _HomeScreenState extends State<HomeScreen> {
       final barcodes = await _barcodeScanner.processImage(inputImage);
 
       if (barcodes.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("No barcode found")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("No barcode found")));
         return;
       }
       _processBarcode(barcodes.first.rawValue ?? "");
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Scanning failed")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Scanning failed")));
     }
   }
 
   void _handleManualBarcodeEntry() {
     final enteredBarcode = _barcodeController.text.trim();
     if (enteredBarcode.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Enter barcode")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Enter barcode")));
       return;
     }
     _processBarcode(enteredBarcode);
   }
 
-  Future<void> _processBarcode(String barcode) async {
+  void _processBarcode(String barcode) {
     setState(() => _isProcessing = true);
     try {
-      final productDatabase = await _loadProductDatabase();
-      final product = productDatabase.firstWhere(
-        (prod) => prod["barcode"] == barcode,
-        orElse: () => {},
-      );
+      final product = _dbservice.getProductByBarcode(barcode);
 
-      if (product.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Product not found")),
-        );
+      if (product == null) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Product not found")));
         return;
       }
 
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProductDetailsScreen(
-            productName: product["name"] ?? "Unknown Product",
-            ingredients: List<String>.from(product["ingredients"] ?? []),
-            allergens: List<String>.from(product["allergens"] ?? []),
-            hasAllergen: (List<String>.from(product["allergens"] ?? []))
-                .any((allergen) => _userAllergies.contains(allergen)),
-            userAllergies: _userAllergies,
-          ),
+          builder:
+              (context) => ProductDetailsScreen(
+                productName: product["name"] ?? "Unknown Product",
+                ingredients: List<String>.from(product["ingredients"] ?? []),
+                allergens: List<String>.from(product["allergens"] ?? []),
+                hasAllergen: (List<String>.from(
+                  product["allergens"] ?? [],
+                )).any(
+                  (allergen) => context
+                      .read<ProfileCubit>()
+                      .state
+                      .userAllergies
+                      .contains(allergen),
+                ),
+                userAllergies: context.read<ProfileCubit>().state.userAllergies,
+              ),
         ),
       );
     } finally {
@@ -138,19 +120,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Welcome back,",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.white70,
-                    )),
-            Text(_userName,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    )),
-          ],
+        title: BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Welcome back,",
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: Colors.white70),
+                ),
+                Text(
+                  state.userName.isEmpty ? "Welcome" : state.userName,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -174,22 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: const Icon(Icons.person, color: Colors.white),
             ),
-            onPressed: () async {
-              final updatedData = await Navigator.push(
+            onPressed: () {
+              Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => UserProfileScreen(
-                    currentName: _userName,
-                    currentAllergies: _userAllergies,
-                  ),
-                ),
+                MaterialPageRoute(builder: (context) => UserProfileScreen()),
               );
-              if (updatedData != null) {
-                setState(() {
-                  _userName = updatedData['name'];
-                  _userAllergies = updatedData['allergies'];
-                });
-              }
             },
           ),
         ],
@@ -220,23 +199,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Text(
                             "Scan Product Barcode",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             "Check allergen safety instantly",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  color: Colors.grey[600],
-                                ),
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(color: Colors.grey[600]),
                           ),
                         ],
                       ),
@@ -246,19 +220,24 @@ class _HomeScreenState extends State<HomeScreen> {
                         onUploadPressed: _handleUploadPhoto,
                       ),
                       const SizedBox(height: 32),
-                      Row(children: [
-                        Expanded(child: Divider(color: Colors.grey[300]!)),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text("or enter manually"),
-                        ),
-                        Expanded(child: Divider(color: Colors.grey[300]!)),
-                      ]),
+                      Row(
+                        children: [
+                          Expanded(child: Divider(color: Colors.grey[300]!)),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: Text("or enter manually"),
+                          ),
+                          Expanded(child: Divider(color: Colors.grey[300]!)),
+                        ],
+                      ),
                       const SizedBox(height: 24),
                       TextField(
                         controller: _barcodeController,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.camera, color: Colors.grey[600]),
+                          prefixIcon: Icon(
+                            Icons.camera,
+                            color: Colors.grey[600],
+                          ),
                           suffixIcon: IconButton(
                             icon: Icon(Icons.clear, color: Colors.grey[500]),
                             onPressed: () => _barcodeController.clear(),
@@ -272,7 +251,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           hintText: "EAN-13 Barcode",
                         ),
                         keyboardType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       ),
                       const SizedBox(height: 16),
                     ],
@@ -289,9 +270,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: _isProcessing
-                      ? const CircularProgressIndicator()
-                      : const Text("Verify Product Safety"),
+                  child:
+                      _isProcessing
+                          ? const CircularProgressIndicator()
+                          : const Text("Verify Product Safety"),
                 ),
               ),
             ],

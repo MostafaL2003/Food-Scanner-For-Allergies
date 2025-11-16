@@ -3,7 +3,7 @@ import '../services/recommendation_service.dart';
 import '../models/food.dart';
 
 /// Displays detailed product analysis including ingredients, allergens, and safety status
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final String productName;
   final List<String> ingredients;
   final List<String> allergens;
@@ -19,18 +19,30 @@ class ProductDetailsScreen extends StatelessWidget {
     required this.userAllergies,
   }) : super(key: key);
 
-  /// Fetches alternative product recommendations from external service
-  Future<Map<String, dynamic>> getAlternativeProduct() async {
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  late Future<Map<String, dynamic>> _recommendationFuture;
+  void initState() {
+    super.initState();
+
+    // 2. Call the API *one time* and save the "receipt" (the Future)
+    _recommendationFuture = _getAlternativeProduct();
+    
+  }
+    Future<Map<String, dynamic>> _getAlternativeProduct() async {
     final recommendationService = RecommendationService();
     try {
       final Food? alternative = await recommendationService.getRecommendation(
-        "$productName (focus on name)",
-        userAllergies,
+        "${widget.productName} (focus on name)",
+        widget.userAllergies,
       );
       return alternative != null
           ? {
               'name': alternative.name,
-              'description': "Safe alternative for $productName",
+              'description': "Safe alternative for ${widget.productName}",
             }
           : {};
     } catch (e) {
@@ -38,10 +50,12 @@ class ProductDetailsScreen extends StatelessWidget {
       return {};
     }
   }
+  /// Fetches alternative product recommendations from external service
+
 
   @override
   Widget build(BuildContext context) {
-    final Color safeColor = hasAllergen ? Colors.red : Colors.green;
+    final Color safeColor = widget.hasAllergen ? Colors.red : Colors.green;
     final Color primaryColor = const Color(0xFFFF9800);
 
     return Scaffold(
@@ -81,7 +95,7 @@ class ProductDetailsScreen extends StatelessWidget {
               const SizedBox(height: 32),
               _buildSafetyStatus(safeColor),
               const SizedBox(height: 32),
-              if (hasAllergen) _buildRecommendationSection(),
+              if (widget.hasAllergen) _buildRecommendationSection(),
               const SizedBox(height: 24),
               _buildBackButton(primaryColor, context),
             ],
@@ -90,8 +104,6 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
-
 
   /// Product image placeholder with camera icon
   Widget _buildProductImagePlaceholder() {
@@ -122,7 +134,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget _buildProductNameHeader(BuildContext context) {
     return Center(
       child: Text(
-        productName,
+        widget.productName,
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.w700,
               color: Colors.grey[800]),
@@ -138,7 +150,7 @@ class ProductDetailsScreen extends StatelessWidget {
       icon: Icons.list_alt,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: ingredients.map((ingredient) => Padding(
+        children: widget.ingredients.map((ingredient) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: Text("• $ingredient",
                   style: TextStyle(
@@ -157,7 +169,7 @@ class ProductDetailsScreen extends StatelessWidget {
       content: Wrap(
         spacing: 10,
         runSpacing: 10,
-        children: allergens.map((allergen) => Chip(
+        children: widget.allergens.map((allergen) => Chip(
               label: Text(allergen,
                   style: TextStyle(
                       color: Colors.white,
@@ -186,13 +198,13 @@ class ProductDetailsScreen extends StatelessWidget {
       child: Column(
         children: [
           Icon(
-            hasAllergen ? Icons.dangerous : Icons.verified_user,
+            widget.hasAllergen ? Icons.dangerous : Icons.verified_user,
             color: safeColor,
             size: 50,
           ),
           const SizedBox(height: 16),
           Text(
-            hasAllergen ? "Not Safe" : "Safe!",
+            widget.hasAllergen ? "Not Safe" : "Safe!",
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,
@@ -206,7 +218,7 @@ class ProductDetailsScreen extends StatelessWidget {
   /// Recommendation section with loading states
   Widget _buildRecommendationSection() {
     return FutureBuilder<Map<String, dynamic>>(
-      future: getAlternativeProduct(),
+      future: _recommendationFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return _buildLoadingRecommendation();
@@ -234,7 +246,6 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
 
   /// Standard section card template
   Widget _buildSectionCard({

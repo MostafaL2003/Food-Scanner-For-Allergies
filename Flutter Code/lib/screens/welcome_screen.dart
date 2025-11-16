@@ -58,7 +58,7 @@ class WelcomeScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const UserProfileScreen(currentName: '', currentAllergies: [],)),
+                          builder: (context) =>  UserProfileScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
